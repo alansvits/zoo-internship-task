@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "assert": "^2.0.0",
+    "jest": "^26.4.2",
+    "nodemon": "^2.0.4",
+    "supertest": "^4.0.2"
+  },
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "NODE_ENV=test jest --watchAll"
+  }
+}
