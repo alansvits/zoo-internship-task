@@ -32,7 +32,7 @@ describe("/search-people", () => {
 
   testInput.forEach(({ input, expected }) => {
     input.forEach((name) => {
-      it(`should find list with matched people and their homeworlds by name ("${name}")`, (done) => {
+      it(`should find list with matched people and their homeworlds by name ("${name}")`,  (done) => {
         request(app)
           .get(`/search-people?name=${name}`)
           .expect("Content-Type", /json/)
