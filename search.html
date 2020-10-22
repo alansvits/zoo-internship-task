@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Search a name of Star Wars character</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .vh-100 {
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container d-flex justify-content-center vh-100 align-items-center">
+
+        <div class="form-group col-6 ">
+            <label>
+                Search for Star Wars character:
+            </label>
+            <input id="autocomplete" class="form-control" placeholder="Luke Sky..." autofocus/>
+        </div>
+
+    </div>
+
+    <script>
+      let currentData;
+      $( "#autocomplete" ).autocomplete({
+        minLength: 1,
+        source: function( request, response ) {
+          $.ajax({
+            url: "/search-people",
+            type: 'get',
+            dataType: "json",
+            data: {
+              name: request.term
+            },
+            success: function( data ) {
+              currentData = data
+              let names = data.map((name) => name.name)
+              response( names );
+            }
+          });
+        },
+        select: function (event, ui) {
+          let selectedName = currentData.find( (el) => el.name === ui.item.label)
+          let result = selectedName.name + ' ' +'(' + (selectedName.homeworld) + ')'
+          $('#autocomplete').val(result);
+          return false;
+        }
+      });
+    </script>
+</body>
+</html>

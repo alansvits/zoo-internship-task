@@ -1,24 +1,33 @@
 const express = require("express");
 const axios = require("axios");
 const { createRecords, getPlanetNames, resolveHomeworlds} = require('./util')
+const path = require('path')
+
 const app = express();
 
 const SWAPI_PEOPLE = 'https://swapi.dev/api/people/';
 
+//In-memory cache :)
 const cache = {}
 
+app.get('/search', (req, res) => {
+  res.sendFile(path.join(__dirname, 'search.html'))
+});
+
 app.get("/search-people", (req, res) => {
-  if (req.query.name === ''){
+  let searchName = req.query.name.toLowerCase()
+  if (searchName === ''){
    return res.json([])
   }
 
-  if (cache.hasOwnProperty(req.query.name)) {
-    console.log('cached res')
-    return res.json(cache[req.query.name])
+  //Check cache for similar request
+  if (cache.hasOwnProperty(searchName)) {
+    console.log('cached resposne')
+    return res.json(cache[searchName])
   } else {
     axios.get(SWAPI_PEOPLE, {
       params: {
-        search: req.query.name
+        search: searchName
       }
     })
       .then(async (response) => {
@@ -27,11 +36,12 @@ app.get("/search-people", (req, res) => {
         }
 
         let records = createRecords(response.data.results)
-        // console.log('records', records)
         let planets = await getPlanetNames(records.map( el => el.homeworld))
         let resolvedRecords = resolveHomeworlds(records, planets)
-        // console.log('resolveHomeworlds', resolvedRecords)
-        cache[req.query.name] = resolvedRecords
+
+        //Cache result of request
+        cache[searchName] = resolvedRecords
+
         res.json(resolvedRecords)
       })
       .catch(err => {
@@ -40,6 +50,15 @@ app.get("/search-people", (req, res) => {
       })
   }
 });
+
+app.use(function (req, res, next) {
+  res.status(404).send("Sorry can't find that!")
+})
+
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
 
 exports.app = app;
 
