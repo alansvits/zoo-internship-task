@@ -49,6 +49,7 @@
           });
         },
         select: function (event, ui) {
+          console.log('ui', ui)
           let selectedName = currentData.find( (el) => el.name === ui.item.label)
           let result = selectedName.name + ' ' +'(' + (selectedName.homeworld) + ')'
           $('#autocomplete').val(result);
