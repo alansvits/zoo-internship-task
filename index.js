@@ -10,6 +10,8 @@ const SWAPI_PEOPLE = 'https://swapi.dev/api/people/';
 //In-memory cache :)
 const cache = {}
 
+app.get('/', (req, res) => res.redirect('/search'))
+
 app.get('/search', (req, res) => {
   res.sendFile(path.join(__dirname, 'search.html'))
 });
