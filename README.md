@@ -1,7 +1,6 @@
-Glitch [app](https://alansvits-zoo-internship-task.glitch.me)
+Glitch [app](https://alansvits-zoo-internship-task.glitch.me) | [code](https://glitch.com/edit/#!/alansvits-zoo-internship-task)
 
-Clitch [app with people/planet saving to json](https://alansvits-zoo-internship-task-1.glitch.me) this branch [here](https://github.com/alansvits/zoo-internship-task/tree/keyv-storing)
-
+Clitch [app with people/planet saving to json](https://alansvits-zoo-internship-task-1.glitch.me) | [code](https://glitch.com/edit/#!/alansvits-zoo-internship-task-1). This branch [here](https://github.com/alansvits/zoo-internship-task/tree/keyv-storing)
 # Task #1 (Back-end)
 
 Using [SWAPI](https://swapi.dev/documentation#people) (The Star Wars API), build a service allowing search over `/people` resource by `name`.
